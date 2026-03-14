@@ -38,7 +38,9 @@ class CartItem(models.Model):
 
     @property
     def subtotal(self):
-        return self.product.price * self.quantity
+        from decimal import Decimal
+        price = Decimal(str(self.product.price))
+        return price * self.quantity
 
     def __str__(self):
         return f"{self.quantity}x {self.product.title}"
