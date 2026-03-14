@@ -1,8 +1,10 @@
-.PHONY: dev test seed build migrate frontend-install frontend-dev
+VENV = .venv/bin
+
+.PHONY: dev test seed build migrate frontend-install frontend-dev frontend-build setup
 
 # Backend
 dev:
-	cd backend && ../$(VENV)/python manage.py runserver
+	cd backend && ../$(VENV)/python manage.py runserver 3009
 
 migrate:
 	cd backend && ../$(VENV)/python manage.py makemigrations && ../$(VENV)/python manage.py migrate
@@ -15,6 +17,7 @@ test:
 
 build:
 	cd backend && ../$(VENV)/python manage.py collectstatic --noinput
+	cd frontend && npm run build
 
 # Frontend
 frontend-install:
@@ -23,7 +26,8 @@ frontend-install:
 frontend-dev:
 	cd frontend && npm run dev
 
-# Setup
-setup: migrate seed
+frontend-build:
+	cd frontend && npm run build
 
-VENV = .venv/bin
+# Setup
+setup: migrate seed frontend-install
