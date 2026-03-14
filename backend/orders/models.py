@@ -43,7 +43,9 @@ class OrderItem(models.Model):
 
     @property
     def subtotal(self):
-        return self.unit_price * self.quantity
+        from decimal import Decimal
+        price = Decimal(str(self.unit_price))
+        return price * self.quantity
 
     def __str__(self):
         return f"{self.quantity}x {self.product.title} @ {self.unit_price}"
